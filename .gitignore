@@ -9,12 +9,30 @@ venv/
 ENV/
 env/
 
+# Python build artifacts
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+*.dist-info/
+
+# Environment variables
+.env
+.env.local
+
 # UV
 .uv/
 
 # Data
 data/
 *.jsonl
+
+# Databases
+law_ai.db
+law_ai.db-*
+qdrant_storage/
+postgres_data/
 
 # IDE
 .vscode/

@@ -1,16 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "law-ai"
+name = "lawbot"
 version = "0.1.0"
-description = "Fetch Georgia legal sources (state code, appellate opinions, Gwinnett County ordinances) into JSONL for search"
+description = "AI-powered legal research assistant for Georgia law"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    # Data fetching
     "requests>=2.31.0",
     "tqdm>=4.66.0",
     "beautifulsoup4>=4.12.0",
     "pypdf>=4.0.0",
     "striprtf>=0.0.26",
+    "torch>=2.1.0",
+    "openai>=2.15.0",
+    "python-dotenv>=1.2.1",
+    "psycopg2-binary>=2.9.11",
+    "pgvector>=0.4.2",
+    # CLI/TUI
+    "rich>=13.7.0",
+    "click>=8.1.0",
+    "prompt-toolkit>=3.0.0",
+    "tomli-w>=1.0.0",
+    "textual>=0.47.0",
+    # LLM providers
+    "anthropic>=0.18.0",
+    # Embeddings
+    "sentence-transformers>=2.2.0",
 ]
 
 [project.scripts]
 law-fetch = "law_fetch:main"
+lawbot = "lawbot.cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["postgres_data*", "data*", "scripts*"]

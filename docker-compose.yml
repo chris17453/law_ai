@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: law_ai_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: law_ai
+      POSTGRES_USER: law_ai_user
+      POSTGRES_PASSWORD: law_ai_password
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U law_ai_user -d law_ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  default:
+    name: law_ai_network
