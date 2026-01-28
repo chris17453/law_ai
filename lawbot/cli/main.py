@@ -160,23 +160,25 @@ def history(limit):
 @click.argument("query", nargs=-1, required=True)
 @click.option("--limit", "-n", default=5, help="Number of results")
 @click.option("--region", "-r", default="GA", help="Region filter")
-def search(query, limit, region):
+@click.option("--expand/--no-expand", default=True, help="Use LLM query expansion")
+def search(query, limit, region, expand):
     """Search Georgia laws (one-shot, non-interactive)."""
     from rich.console import Console
     from rich.table import Table
     from rich.panel import Panel
     from rich.markdown import Markdown
-    
+
     query_text = " ".join(query)
     config = Config()
     config.set("general", "region", region)
     config.set("general", "search_limit", limit)
-    
+
     console = Console()
-    
-    with console.status("Searching..."):
+
+    status_text = "Expanding query & searching..." if expand else "Searching..."
+    with console.status(status_text):
         from .search import search_laws
-        results = search_laws(query_text, config, limit=limit)
+        results = search_laws(query_text, config, limit=limit, expand=expand)
     
     if not results:
         console.print("[yellow]No results found. Is the database populated?[/]")
@@ -200,14 +202,14 @@ def themes():
     from rich.console import Console
     from rich.table import Table
     from .themes import THEMES, get_theme
-    
+
     console = Console()
     table = Table(title="Available Themes")
     table.add_column("Name", style="cyan")
     table.add_column("Primary", style="bold")
     table.add_column("Secondary")
     table.add_column("Background")
-    
+
     for name, theme in THEMES.items():
         table.add_row(
             theme.name,
@@ -215,9 +217,55 @@ def themes():
             f"[{theme.secondary}]████[/]",
             f"[on {theme.background}]    [/]",
         )
-    
+
     console.print(table)
     console.print("\n[dim]Set theme with: lawbot config --set ui.theme <name>[/]")
+
+
+@cli.group()
+def db():
+    """Database backup and restore utilities."""
+    pass
+
+
+@db.command("backup")
+@click.option("--dir", "-d", "backup_dir", default="./backups",
+              help="Directory to store backup chunks (default: ./backups)")
+@click.option("--chunk-size", "-c", default=95,
+              help="Maximum chunk size in MB (default: 95)")
+@click.option("--no-compress", is_flag=True,
+              help="Disable compression (not recommended)")
+def db_backup(backup_dir, chunk_size, no_compress):
+    """Backup database to chunked files for GitHub storage."""
+    from rich.console import Console
+    from .db_backup import backup_database
+    from pathlib import Path
+
+    console = Console()
+    backup_database(
+        Path(backup_dir),
+        chunk_size_mb=chunk_size,
+        compress=not no_compress,
+        console=console
+    )
+
+
+@db.command("restore")
+@click.argument("backup_dir")
+@click.option("--no-compress", is_flag=True,
+              help="Backup is not compressed")
+def db_restore(backup_dir, no_compress):
+    """Restore database from chunked backup files."""
+    from rich.console import Console
+    from .db_backup import restore_database
+    from pathlib import Path
+
+    console = Console()
+    restore_database(
+        Path(backup_dir),
+        compressed=not no_compress,
+        console=console
+    )
 
 
 def main():

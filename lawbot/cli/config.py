@@ -12,6 +12,7 @@ DEFAULT_CONFIG = {
         "auto_search": True,
         "search_limit": 5,
         "show_splash": True,
+        "query_expansion": True,
     },
     "llm": {
         "provider": "azure",  # azure, openai, anthropic
@@ -141,7 +142,11 @@ class Config:
     @property
     def search_limit(self) -> int:
         return self._config["general"]["search_limit"]
-    
+
+    @property
+    def query_expansion(self) -> bool:
+        return self._config["general"].get("query_expansion", True)
+
     # LLM settings
     @property
     def provider(self) -> str:
@@ -211,7 +216,7 @@ class Config:
     @property
     def postgres_password(self) -> str:
         return get_value(self._config, "database", "postgres_password", "POSTGRES_PASSWORD") or "law_ai_password"
-    
+
     # UI settings
     @property
     def theme(self) -> str:

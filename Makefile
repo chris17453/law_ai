@@ -1,4 +1,4 @@
-.PHONY: help setup start stop restart clean ingest search search-region search-region-only status stats regions logs shell test
+.PHONY: help setup start stop restart clean ingest search search-region search-region-only status stats regions logs shell test db-backup db-restore
 
 # Default target
 help:
@@ -33,6 +33,10 @@ help:
 	@echo "    make shell          - Open Python shell with env loaded"
 	@echo "    make clean          - Remove all data and containers"
 	@echo "    make clean-data     - Remove only vector database data"
+	@echo ""
+	@echo "  Database Backup & Restore:"
+	@echo "    make db-backup            - Create database backup (default: ./data/db_backups)"
+	@echo "    make db-restore DIR=path  - Restore database from backup chunks"
 	@echo ""
 	@echo "  Development:"
 	@echo "    make test           - Run tests"
@@ -227,3 +231,20 @@ quickstart: setup
 	@echo "  3. Generate embeddings:    make generate-embeddings"
 	@echo "  4. Search:                 make search QUERY='murder laws in Georgia'"
 	@echo ""
+
+# Database backup and restore
+db-backup:
+	@echo "Creating database backup..."
+	uv run lawbot db backup --dir ./data/db_backups
+	@echo ""
+	@echo "✓ Backup complete! Files stored in ./data/db_backups"
+	@echo "To restore: make db-restore DIR=./data/db_backups"
+
+db-restore:
+	@if [ -z "$(DIR)" ]; then \
+		echo "Usage: make db-restore DIR=path/to/backup"; \
+		echo "Example: make db-restore DIR=./data/db_backups"; \
+		exit 1; \
+	fi
+	@echo "Restoring database from: $(DIR)"
+	uv run lawbot db restore $(DIR)

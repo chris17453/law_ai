@@ -239,35 +239,41 @@ Screen {{
     scrollbar-gutter: stable;
 }}
 
-.message-container {{
-    margin-bottom: 1;
+MessageWidget {{
     width: 100%;
+    height: auto;
+    layout: vertical;
+    margin-bottom: 2;
 }}
 
 .user-message {{
-    background: $secondary 20%;
-    border: solid $secondary;
-    padding: 1;
-    margin-left: 10;
+    padding: 0;
+    margin: 0 0 1 2;
+    width: 100%;
+    height: auto;
 }}
 
 .user-label {{
     color: $secondary;
     text-style: bold;
     margin-bottom: 1;
+    width: auto;
+    height: 1;
 }}
 
 .assistant-message {{
-    background: $surface;
-    border: solid $primary;
-    padding: 1;
-    margin-right: 10;
+    padding: 0;
+    margin: 0 0 1 0;
+    width: 100%;
+    height: auto;
 }}
 
 .assistant-label {{
     color: $primary;
     text-style: bold;
     margin-bottom: 1;
+    width: auto;
+    height: 1;
 }}
 
 .sources-panel {{
@@ -278,9 +284,164 @@ Screen {{
     height: auto;
 }}
 
+.sources-panel-top {{
+    background: $accent 20%;
+    border: thick $accent;
+    padding: 1 2;
+    margin: 0 0 2 0;
+    height: auto;
+    width: 100%;
+}}
+
 .sources-title {{
-    color: $warning;
+    color: $accent;
     text-style: bold;
+    margin-bottom: 1;
+    height: 1;
+}}
+
+.sources-links-container {{
+    width: 100%;
+    height: auto;
+}}
+
+.statute-link {{
+    width: auto;
+    min-width: 8;
+    height: 1;
+    margin: 0 1 0 0;
+    padding: 0 1;
+    text-align: center;
+    background: $primary 30%;
+    border: none;
+    color: $text;
+}}
+
+.statute-link:hover {{
+    background: $accent 40%;
+    text-style: bold;
+}}
+
+.statute-link:focus {{
+    background: $secondary 50%;
+    text-style: bold;
+}}
+
+BrowseLawsScreen {{
+    background: $background;
+}}
+
+#browse-container {{
+    width: 100%;
+    height: 100%;
+    background: $background;
+    padding: 2;
+    layout: vertical;
+}}
+
+#browse-title {{
+    color: $primary;
+    text-style: bold;
+    margin-bottom: 1;
+    width: 100%;
+    height: auto;
+}}
+
+#browse-search-bar {{
+    width: 100%;
+    height: auto;
+    margin-bottom: 1;
+}}
+
+#browse-search-input {{
+    width: 1fr;
+}}
+
+#browse-search-btn {{
+    width: auto;
+    margin-left: 1;
+}}
+
+#browse-all-btn {{
+    width: auto;
+    margin-left: 1;
+}}
+
+#browse-results-list {{
+    width: 100%;
+    height: 1fr;
+    border: solid $accent;
+    margin-bottom: 1;
+    background: $surface;
+}}
+
+#browse-status {{
+    color: $accent;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1;
+}}
+
+#browse-help {{
+    color: $text 50%;
+    text-align: center;
+    width: 100%;
+    height: auto;
+}}
+
+LawDetailScreen {{
+    background: $background;
+}}
+
+#law-detail-container {{
+    width: 100%;
+    height: 100%;
+    background: $background;
+    padding: 2;
+    layout: vertical;
+}}
+
+#law-detail-cite {{
+    color: $primary;
+    text-style: bold;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1;
+}}
+
+#law-detail-title {{
+    color: $accent;
+    text-style: bold;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1;
+}}
+
+#law-detail-source {{
+    color: $text 70%;
+    width: 100%;
+    height: auto;
+    margin-bottom: 2;
+}}
+
+#law-detail-text-container {{
+    width: 100%;
+    height: 1fr;
+    background: $surface;
+    border: solid $accent;
+    padding: 2;
+    margin-bottom: 1;
+}}
+
+#law-detail-text {{
+    width: 100%;
+    height: auto;
+}}
+
+#law-detail-actions {{
+    width: 100%;
+    height: auto;
 }}
 
 #input-area {{
