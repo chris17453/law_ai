@@ -30,7 +30,7 @@ data/
 
 # Databases
 law_ai.db
-# law_ai.db-*  # Commented out to allow backups in repo
+law_ai.db-*
 qdrant_storage/
 postgres_data/
 
